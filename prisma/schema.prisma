@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model User {
+  id        String   @id @default(cuid()) // Correspond à l'ID Clerk
+  clerkId   String   @unique
+  role  String  @default("CLIENT")   // "CLIENT" ou "ADMIN"
+  firstName String
+  lastName  String
+  email     String   @unique
+  phone     String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+// Modèle pour les annonces du comptable
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String?
+  content   String?  @db.Text
+  imageUrl  String?
+  priority  String   @default("normal") // "normal", "urgent", "info"
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+// Modèle pour les demandes d'impôts
+model TaxSubmission {
+  id               String   @id @default(cuid())
+  userId           String
+  firstName        String  
+  lastName         String 
+  taxYear          Int
+  serviceType      String
+  hasSpouse        Boolean  @default(false)
+  hasDependents    Boolean  @default(false)
+  phone            String
+  email            String?
+  notes            String?  @db.Text
+  status           String   @default("En attente")
+  createdAt        DateTime @default(now())
+}
