@@ -60,7 +60,7 @@ export default function Footer() {
             <h4 className="text-slate-900 font-bold text-sm uppercase tracking-widest mb-6">Navigation</h4>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link href="/services" className="text-slate-500 hover:text-blue-600 hover:translate-x-1 transition-all inline-block">
+                <Link href="/nos-services" className="text-slate-500 hover:text-blue-600 hover:translate-x-1 transition-all inline-block">
                   Nos Services
                 </Link>
               </li>
