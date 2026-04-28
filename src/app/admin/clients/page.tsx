@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { toggleClientStatus } from "../../../actions/adminActions";
 import DeleteClientButton from "../../../components/DeleteClientButton";
-import SearchBar from "../../../components/SearchBar"; // Assure-toi de créer ce composant (voir ci-dessous)
+import SearchBar from "../../../components/SearchBar"; 
 import { FolderIcon, UserGroupIcon } from "@heroicons/react/24/outline";
 
 export default async function AdminClientsPage(props: {
@@ -104,7 +104,7 @@ export default async function AdminClientsPage(props: {
                         className="p-2.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"
                         title="Éditer le profil"
                       >
-                        <span className="text-[10px] font-black uppercase">Éditer</span>
+                        <span className="text-[10px] font-black uppercase">Modifier</span>
                       </Link>
                       
                       <DeleteClientButton 
