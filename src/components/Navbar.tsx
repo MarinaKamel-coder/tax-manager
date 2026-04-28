@@ -7,14 +7,15 @@ import {
   HomeIcon, 
   MegaphoneIcon, 
   ClipboardDocumentListIcon, 
-  UsersIcon 
+  UsersIcon,
+  BookOpenIcon // Nouvelle icône pour les ressources
 } from "@heroicons/react/24/outline";
 
 export default async function Navbar() {
   const { userId } = await auth();
   const role = await checkRole();
 
-  if (!userId) return null; // Ne pas afficher la navbar si non connecté
+  if (!userId) return null;
 
   return (
     <nav className="bg-white border-b border-slate-200 sticky top-0 z-50">
@@ -36,11 +37,19 @@ export default async function Navbar() {
               </div>
             </div>
 
-            {/* Liens de navigation */}
+            {/* Liens de navigation Desktop */}
             <div className="hidden md:flex items-center gap-1">
               <NavLink href="/" icon={<HomeIcon className="h-5 w-5" />} label="Accueil" />
-              <NavLink href="/annonces" icon={<MegaphoneIcon className="h-5 w-5" />} label="Annonces" />
               <NavLink href="/tableau-de-bord" icon={<ClipboardDocumentListIcon className="h-5 w-5" />} label="Demandes" />
+              
+              
+              <NavLink 
+                href={role === "admin" ? "/admin/ressources" : "/documents"} 
+                icon={<BookOpenIcon className="h-5 w-5" />} 
+                label="Documents" 
+              />
+
+              <NavLink href="/annonces" icon={<MegaphoneIcon className="h-5 w-5" />} label="Annonces" />
               
               {role === "admin" && (
                 <NavLink href="/admin/clients" icon={<UsersIcon className="h-5 w-5" />} label="Clients" />
@@ -50,37 +59,47 @@ export default async function Navbar() {
 
           <div className="flex items-center gap-4">
             {role === "admin" && (
-              <span className="hidden sm:inline-block bg-red-100 text-red-700 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider">
-                Mode Administrateur
+              <span className="hidden sm:inline-block bg-red-100 text-red-700 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider border border-red-200">
+                Admin
               </span>
             )}
-            <UserButton />
+            <UserButton/>
           </div>
         </div>
       </div>
 
-      {/* Navigation Mobile (bas de l'écran ou menu hamburger si tu préfères) */}
-      <div className="md:hidden flex justify-around border-t p-2 bg-white">
-          <Link href="/" className="p-2 text-slate-500"><HomeIcon className="h-6 w-6" /></Link>
-          <Link href="/annonces" className="p-2 text-slate-500"><MegaphoneIcon className="h-6 w-6" /></Link>
-          <Link href="/tableau-de-bord" className="p-2 text-slate-500"><ClipboardDocumentListIcon className="h-6 w-6" /></Link>
+      {/* Navigation Mobile */}
+      <div className="md:hidden flex justify-around border-t py-3 bg-slate-50">
+          <MobileIconLink href="/" icon={<HomeIcon className="h-6 w-6" />} />
+          <MobileIconLink href="/tableau-de-bord" icon={<ClipboardDocumentListIcon className="h-6 w-6" />} />
+          <MobileIconLink 
+            href={role === "admin" ? "/admin/ressources" : "/tableau-de-bord"} 
+            icon={<BookOpenIcon className="h-6 w-6" />} 
+          />
           {role === "admin" && (
-            <Link href="/admin/clients" className="p-2 text-slate-500"><UsersIcon className="h-6 w-6" /></Link>
+            <MobileIconLink href="/admin/clients" icon={<UsersIcon className="h-6 w-6" />} />
           )}
       </div>
     </nav>
   );
 }
 
-// Petit sous-composant pour les liens pour éviter la répétition
 function NavLink({ href, icon, label }: { href: string, icon: React.ReactNode, label: string }) {
   return (
     <Link 
       href={href} 
-      className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-600 hover:text-blue-700 hover:bg-blue-50 rounded-xl transition"
+      className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-600 hover:text-blue-700 hover:bg-blue-50 rounded-xl transition-all"
     >
       {icon}
       {label}
+    </Link>
+  );
+}
+
+function MobileIconLink({ href, icon }: { href: string, icon: React.ReactNode }) {
+  return (
+    <Link href={href} className="p-2 text-slate-500 hover:text-blue-600 active:scale-95 transition-transform">
+      {icon}
     </Link>
   );
 }
