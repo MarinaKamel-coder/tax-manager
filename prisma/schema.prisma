@@ -52,3 +52,10 @@ model TaxSubmission {
   status           String   @default("En attente")
   createdAt        DateTime @default(now())
 }
+model Document {
+  id        String   @id @default(cuid())
+  name      String
+  url       String   
+  clientId  String   
+  createdAt DateTime @default(now())
+}
