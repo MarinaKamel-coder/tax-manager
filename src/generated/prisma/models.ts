@@ -11,4 +11,5 @@
 export type * from './models/User'
 export type * from './models/Announcement'
 export type * from './models/TaxSubmission'
+export type * from './models/Document'
 export type * from './commonInputTypes'

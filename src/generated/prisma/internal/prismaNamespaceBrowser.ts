@@ -53,7 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Announcement: 'Announcement',
-  TaxSubmission: 'TaxSubmission'
+  TaxSubmission: 'TaxSubmission',
+  Document: 'Document'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -118,6 +119,19 @@ export const TaxSubmissionScalarFieldEnum = {
 } as const
 
 export type TaxSubmissionScalarFieldEnum = (typeof TaxSubmissionScalarFieldEnum)[keyof typeof TaxSubmissionScalarFieldEnum]
+
+
+export const DocumentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  url: 'url',
+  clientId: 'clientId',
+  isGeneral: 'isGeneral',
+  createdAt: 'createdAt',
+  clerkId: 'clerkId'
+} as const
+
+export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
 
 
 export const SortOrder = {

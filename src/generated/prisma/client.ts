@@ -56,3 +56,8 @@ export type Announcement = Prisma.AnnouncementModel
  * 
  */
 export type TaxSubmission = Prisma.TaxSubmissionModel
+/**
+ * Model Document
+ * 
+ */
+export type Document = Prisma.DocumentModel

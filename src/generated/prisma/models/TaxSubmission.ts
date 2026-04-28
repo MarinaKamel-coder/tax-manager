@@ -280,6 +280,7 @@ export type TaxSubmissionWhereInput = {
   notes?: Prisma.StringNullableFilter<"TaxSubmission"> | string | null
   status?: Prisma.StringFilter<"TaxSubmission"> | string
   createdAt?: Prisma.DateTimeFilter<"TaxSubmission"> | Date | string
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type TaxSubmissionOrderByWithRelationInput = {
@@ -296,6 +297,7 @@ export type TaxSubmissionOrderByWithRelationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type TaxSubmissionWhereUniqueInput = Prisma.AtLeast<{
@@ -315,6 +317,7 @@ export type TaxSubmissionWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.StringNullableFilter<"TaxSubmission"> | string | null
   status?: Prisma.StringFilter<"TaxSubmission"> | string
   createdAt?: Prisma.DateTimeFilter<"TaxSubmission"> | Date | string
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
 export type TaxSubmissionOrderByWithAggregationInput = {
@@ -359,7 +362,6 @@ export type TaxSubmissionScalarWhereWithAggregatesInput = {
 
 export type TaxSubmissionCreateInput = {
   id?: string
-  userId: string
   firstName: string
   lastName: string
   taxYear: number
@@ -371,6 +373,7 @@ export type TaxSubmissionCreateInput = {
   notes?: string | null
   status?: string
   createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutSubmissionsInput
 }
 
 export type TaxSubmissionUncheckedCreateInput = {
@@ -391,7 +394,6 @@ export type TaxSubmissionUncheckedCreateInput = {
 
 export type TaxSubmissionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   taxYear?: Prisma.IntFieldUpdateOperationsInput | number
@@ -403,6 +405,7 @@ export type TaxSubmissionUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutSubmissionsNestedInput
 }
 
 export type TaxSubmissionUncheckedUpdateInput = {
@@ -439,7 +442,6 @@ export type TaxSubmissionCreateManyInput = {
 
 export type TaxSubmissionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   taxYear?: Prisma.IntFieldUpdateOperationsInput | number
@@ -467,6 +469,16 @@ export type TaxSubmissionUncheckedUpdateManyInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TaxSubmissionListRelationFilter = {
+  every?: Prisma.TaxSubmissionWhereInput
+  some?: Prisma.TaxSubmissionWhereInput
+  none?: Prisma.TaxSubmissionWhereInput
+}
+
+export type TaxSubmissionOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type TaxSubmissionCountOrderByAggregateInput = {
@@ -525,12 +537,189 @@ export type TaxSubmissionSumOrderByAggregateInput = {
   taxYear?: Prisma.SortOrder
 }
 
+export type TaxSubmissionCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.TaxSubmissionCreateWithoutUserInput, Prisma.TaxSubmissionUncheckedCreateWithoutUserInput> | Prisma.TaxSubmissionCreateWithoutUserInput[] | Prisma.TaxSubmissionUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.TaxSubmissionCreateOrConnectWithoutUserInput | Prisma.TaxSubmissionCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.TaxSubmissionCreateManyUserInputEnvelope
+  connect?: Prisma.TaxSubmissionWhereUniqueInput | Prisma.TaxSubmissionWhereUniqueInput[]
+}
+
+export type TaxSubmissionUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.TaxSubmissionCreateWithoutUserInput, Prisma.TaxSubmissionUncheckedCreateWithoutUserInput> | Prisma.TaxSubmissionCreateWithoutUserInput[] | Prisma.TaxSubmissionUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.TaxSubmissionCreateOrConnectWithoutUserInput | Prisma.TaxSubmissionCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.TaxSubmissionCreateManyUserInputEnvelope
+  connect?: Prisma.TaxSubmissionWhereUniqueInput | Prisma.TaxSubmissionWhereUniqueInput[]
+}
+
+export type TaxSubmissionUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.TaxSubmissionCreateWithoutUserInput, Prisma.TaxSubmissionUncheckedCreateWithoutUserInput> | Prisma.TaxSubmissionCreateWithoutUserInput[] | Prisma.TaxSubmissionUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.TaxSubmissionCreateOrConnectWithoutUserInput | Prisma.TaxSubmissionCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.TaxSubmissionUpsertWithWhereUniqueWithoutUserInput | Prisma.TaxSubmissionUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.TaxSubmissionCreateManyUserInputEnvelope
+  set?: Prisma.TaxSubmissionWhereUniqueInput | Prisma.TaxSubmissionWhereUniqueInput[]
+  disconnect?: Prisma.TaxSubmissionWhereUniqueInput | Prisma.TaxSubmissionWhereUniqueInput[]
+  delete?: Prisma.TaxSubmissionWhereUniqueInput | Prisma.TaxSubmissionWhereUniqueInput[]
+  connect?: Prisma.TaxSubmissionWhereUniqueInput | Prisma.TaxSubmissionWhereUniqueInput[]
+  update?: Prisma.TaxSubmissionUpdateWithWhereUniqueWithoutUserInput | Prisma.TaxSubmissionUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.TaxSubmissionUpdateManyWithWhereWithoutUserInput | Prisma.TaxSubmissionUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.TaxSubmissionScalarWhereInput | Prisma.TaxSubmissionScalarWhereInput[]
+}
+
+export type TaxSubmissionUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.TaxSubmissionCreateWithoutUserInput, Prisma.TaxSubmissionUncheckedCreateWithoutUserInput> | Prisma.TaxSubmissionCreateWithoutUserInput[] | Prisma.TaxSubmissionUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.TaxSubmissionCreateOrConnectWithoutUserInput | Prisma.TaxSubmissionCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.TaxSubmissionUpsertWithWhereUniqueWithoutUserInput | Prisma.TaxSubmissionUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.TaxSubmissionCreateManyUserInputEnvelope
+  set?: Prisma.TaxSubmissionWhereUniqueInput | Prisma.TaxSubmissionWhereUniqueInput[]
+  disconnect?: Prisma.TaxSubmissionWhereUniqueInput | Prisma.TaxSubmissionWhereUniqueInput[]
+  delete?: Prisma.TaxSubmissionWhereUniqueInput | Prisma.TaxSubmissionWhereUniqueInput[]
+  connect?: Prisma.TaxSubmissionWhereUniqueInput | Prisma.TaxSubmissionWhereUniqueInput[]
+  update?: Prisma.TaxSubmissionUpdateWithWhereUniqueWithoutUserInput | Prisma.TaxSubmissionUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.TaxSubmissionUpdateManyWithWhereWithoutUserInput | Prisma.TaxSubmissionUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.TaxSubmissionScalarWhereInput | Prisma.TaxSubmissionScalarWhereInput[]
+}
+
 export type IntFieldUpdateOperationsInput = {
   set?: number
   increment?: number
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type TaxSubmissionCreateWithoutUserInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  taxYear: number
+  serviceType: string
+  hasSpouse?: boolean
+  hasDependents?: boolean
+  phone: string
+  email?: string | null
+  notes?: string | null
+  status?: string
+  createdAt?: Date | string
+}
+
+export type TaxSubmissionUncheckedCreateWithoutUserInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  taxYear: number
+  serviceType: string
+  hasSpouse?: boolean
+  hasDependents?: boolean
+  phone: string
+  email?: string | null
+  notes?: string | null
+  status?: string
+  createdAt?: Date | string
+}
+
+export type TaxSubmissionCreateOrConnectWithoutUserInput = {
+  where: Prisma.TaxSubmissionWhereUniqueInput
+  create: Prisma.XOR<Prisma.TaxSubmissionCreateWithoutUserInput, Prisma.TaxSubmissionUncheckedCreateWithoutUserInput>
+}
+
+export type TaxSubmissionCreateManyUserInputEnvelope = {
+  data: Prisma.TaxSubmissionCreateManyUserInput | Prisma.TaxSubmissionCreateManyUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type TaxSubmissionUpsertWithWhereUniqueWithoutUserInput = {
+  where: Prisma.TaxSubmissionWhereUniqueInput
+  update: Prisma.XOR<Prisma.TaxSubmissionUpdateWithoutUserInput, Prisma.TaxSubmissionUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.TaxSubmissionCreateWithoutUserInput, Prisma.TaxSubmissionUncheckedCreateWithoutUserInput>
+}
+
+export type TaxSubmissionUpdateWithWhereUniqueWithoutUserInput = {
+  where: Prisma.TaxSubmissionWhereUniqueInput
+  data: Prisma.XOR<Prisma.TaxSubmissionUpdateWithoutUserInput, Prisma.TaxSubmissionUncheckedUpdateWithoutUserInput>
+}
+
+export type TaxSubmissionUpdateManyWithWhereWithoutUserInput = {
+  where: Prisma.TaxSubmissionScalarWhereInput
+  data: Prisma.XOR<Prisma.TaxSubmissionUpdateManyMutationInput, Prisma.TaxSubmissionUncheckedUpdateManyWithoutUserInput>
+}
+
+export type TaxSubmissionScalarWhereInput = {
+  AND?: Prisma.TaxSubmissionScalarWhereInput | Prisma.TaxSubmissionScalarWhereInput[]
+  OR?: Prisma.TaxSubmissionScalarWhereInput[]
+  NOT?: Prisma.TaxSubmissionScalarWhereInput | Prisma.TaxSubmissionScalarWhereInput[]
+  id?: Prisma.StringFilter<"TaxSubmission"> | string
+  userId?: Prisma.StringFilter<"TaxSubmission"> | string
+  firstName?: Prisma.StringFilter<"TaxSubmission"> | string
+  lastName?: Prisma.StringFilter<"TaxSubmission"> | string
+  taxYear?: Prisma.IntFilter<"TaxSubmission"> | number
+  serviceType?: Prisma.StringFilter<"TaxSubmission"> | string
+  hasSpouse?: Prisma.BoolFilter<"TaxSubmission"> | boolean
+  hasDependents?: Prisma.BoolFilter<"TaxSubmission"> | boolean
+  phone?: Prisma.StringFilter<"TaxSubmission"> | string
+  email?: Prisma.StringNullableFilter<"TaxSubmission"> | string | null
+  notes?: Prisma.StringNullableFilter<"TaxSubmission"> | string | null
+  status?: Prisma.StringFilter<"TaxSubmission"> | string
+  createdAt?: Prisma.DateTimeFilter<"TaxSubmission"> | Date | string
+}
+
+export type TaxSubmissionCreateManyUserInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  taxYear: number
+  serviceType: string
+  hasSpouse?: boolean
+  hasDependents?: boolean
+  phone: string
+  email?: string | null
+  notes?: string | null
+  status?: string
+  createdAt?: Date | string
+}
+
+export type TaxSubmissionUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  taxYear?: Prisma.IntFieldUpdateOperationsInput | number
+  serviceType?: Prisma.StringFieldUpdateOperationsInput | string
+  hasSpouse?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasDependents?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TaxSubmissionUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  taxYear?: Prisma.IntFieldUpdateOperationsInput | number
+  serviceType?: Prisma.StringFieldUpdateOperationsInput | string
+  hasSpouse?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasDependents?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TaxSubmissionUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  taxYear?: Prisma.IntFieldUpdateOperationsInput | number
+  serviceType?: Prisma.StringFieldUpdateOperationsInput | string
+  hasSpouse?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasDependents?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -549,6 +738,7 @@ export type TaxSubmissionSelect<ExtArgs extends runtime.Types.Extensions.Interna
   notes?: boolean
   status?: boolean
   createdAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["taxSubmission"]>
 
 export type TaxSubmissionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -565,6 +755,7 @@ export type TaxSubmissionSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   notes?: boolean
   status?: boolean
   createdAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["taxSubmission"]>
 
 export type TaxSubmissionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -581,6 +772,7 @@ export type TaxSubmissionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   notes?: boolean
   status?: boolean
   createdAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["taxSubmission"]>
 
 export type TaxSubmissionSelectScalar = {
@@ -600,10 +792,21 @@ export type TaxSubmissionSelectScalar = {
 }
 
 export type TaxSubmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "taxYear" | "serviceType" | "hasSpouse" | "hasDependents" | "phone" | "email" | "notes" | "status" | "createdAt", ExtArgs["result"]["taxSubmission"]>
+export type TaxSubmissionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type TaxSubmissionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type TaxSubmissionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
 
 export type $TaxSubmissionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TaxSubmission"
-  objects: {}
+  objects: {
+    user: Prisma.$UserPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
@@ -1012,6 +1215,7 @@ readonly fields: TaxSubmissionFieldRefs;
  */
 export interface Prisma__TaxSubmissionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1071,6 +1275,10 @@ export type TaxSubmissionFindUniqueArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.TaxSubmissionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxSubmissionInclude<ExtArgs> | null
+  /**
    * Filter, which TaxSubmission to fetch.
    */
   where: Prisma.TaxSubmissionWhereUniqueInput
@@ -1089,6 +1297,10 @@ export type TaxSubmissionFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.TaxSubmissionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxSubmissionInclude<ExtArgs> | null
+  /**
    * Filter, which TaxSubmission to fetch.
    */
   where: Prisma.TaxSubmissionWhereUniqueInput
@@ -1106,6 +1318,10 @@ export type TaxSubmissionFindFirstArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the TaxSubmission
    */
   omit?: Prisma.TaxSubmissionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxSubmissionInclude<ExtArgs> | null
   /**
    * Filter, which TaxSubmission to fetch.
    */
@@ -1155,6 +1371,10 @@ export type TaxSubmissionFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.TaxSubmissionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxSubmissionInclude<ExtArgs> | null
+  /**
    * Filter, which TaxSubmission to fetch.
    */
   where?: Prisma.TaxSubmissionWhereInput
@@ -1202,6 +1422,10 @@ export type TaxSubmissionFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the TaxSubmission
    */
   omit?: Prisma.TaxSubmissionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxSubmissionInclude<ExtArgs> | null
   /**
    * Filter, which TaxSubmissions to fetch.
    */
@@ -1251,6 +1475,10 @@ export type TaxSubmissionCreateArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.TaxSubmissionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxSubmissionInclude<ExtArgs> | null
+  /**
    * The data needed to create a TaxSubmission.
    */
   data: Prisma.XOR<Prisma.TaxSubmissionCreateInput, Prisma.TaxSubmissionUncheckedCreateInput>
@@ -1284,6 +1512,10 @@ export type TaxSubmissionCreateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    */
   data: Prisma.TaxSubmissionCreateManyInput | Prisma.TaxSubmissionCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxSubmissionIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1298,6 +1530,10 @@ export type TaxSubmissionUpdateArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the TaxSubmission
    */
   omit?: Prisma.TaxSubmissionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxSubmissionInclude<ExtArgs> | null
   /**
    * The data needed to update a TaxSubmission.
    */
@@ -1350,6 +1586,10 @@ export type TaxSubmissionUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    * Limit how many TaxSubmissions to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxSubmissionIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1364,6 +1604,10 @@ export type TaxSubmissionUpsertArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the TaxSubmission
    */
   omit?: Prisma.TaxSubmissionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxSubmissionInclude<ExtArgs> | null
   /**
    * The filter to search for the TaxSubmission to update in case it exists.
    */
@@ -1390,6 +1634,10 @@ export type TaxSubmissionDeleteArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the TaxSubmission
    */
   omit?: Prisma.TaxSubmissionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxSubmissionInclude<ExtArgs> | null
   /**
    * Filter which TaxSubmission to delete.
    */
@@ -1422,4 +1670,8 @@ export type TaxSubmissionDefaultArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the TaxSubmission
    */
   omit?: Prisma.TaxSubmissionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxSubmissionInclude<ExtArgs> | null
 }
