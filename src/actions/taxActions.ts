@@ -116,14 +116,25 @@ export async function updateSubmissionStatus(submissionId: string, newStatus: st
 }
 
 export async function deleteTaxRequest(id: string) {
-  const { userId } = await auth();
+  const { userId, sessionClaims } = await auth();
+  const role = sessionClaims?.metadata?.role; 
+
   if (!userId) throw new Error("Non autorisé");
 
   const submission = await prisma.taxSubmission.findUnique({ where: { id } });
+  if (!submission) throw new Error("Dossier introuvable");
 
-  // Sécurité : Vérifier que c'est bien la demande de l'utilisateur et qu'elle est en attente
-  if (submission?.userId !== userId) throw new Error("Ce dossier ne vous appartient pas");
-  if (submission.status !== "En attente") throw new Error("Impossible de supprimer un dossier déjà en cours de traitement");
+  // Autoriser si c'est l'ADMIN ou si c'est le PROPRIÉTAIRE du dossier
+  const isOwner = submission.userId === userId;
+  const isAdmin = role === "admin";
+
+  if (!isOwner && !isAdmin) {
+    throw new Error("Ce dossier ne vous appartient pas");
+  }
+
+  if (!isAdmin && submission.status !== "En attente" && submission.status !== "Acceptée") {
+    throw new Error("Impossible de supprimer un dossier déjà en cours");
+  }
 
   await prisma.taxSubmission.delete({ where: { id } });
   revalidatePath("/tableau-de-bord");
