@@ -6,12 +6,18 @@ import { useState } from "react";
 import { createDocument } from "../actions/documentActions";
 import { DocumentIcon, CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 
+// --- MISE À JOUR DE L'INTERFACE ---
 interface ImageUploaderProps {
   clientId?: string; 
   isGeneral?: boolean;
+  onUploadComplete?: (url: string) => void; 
 }
 
-export default function ImageUploader({ clientId, isGeneral = false }: ImageUploaderProps) {
+export default function ImageUploader({ 
+  clientId, 
+  isGeneral = false, 
+  onUploadComplete // On récupère la prop ici
+}: ImageUploaderProps) {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState<"idle" | "success" | "error">("idle");
 
@@ -31,14 +37,21 @@ export default function ImageUploader({ clientId, isGeneral = false }: ImageUplo
         onClientUploadComplete={async (res) => {
           if (res && res[0]) {
             try {
-              // Vérification : si c'est privé, on a besoin du clientId
-              if (!isGeneral && !clientId) {
-                setUploadStatus("error");
-                return;
+              // 1. Appel de la fonction de retour si elle existe (pour AdminAnnonces)
+              if (onUploadComplete) {
+                onUploadComplete(res[0].url);
               }
 
-              await createDocument(res[0].name, res[0].url, clientId, isGeneral);
-              setUploadStatus("success");
+              // 2. Logique existante pour les documents clients
+              if (!isGeneral && clientId) {
+                await createDocument(res[0].name, res[0].url, clientId, isGeneral);
+                setUploadStatus("success");
+              } else if (isGeneral) {
+                // Si c'est un document général (comme une annonce)
+                await createDocument(res[0].name, res[0].url, undefined, true);
+                setUploadStatus("success");
+              }
+              
             } catch (error) {
               console.error("Erreur base de données:", error);
               setUploadStatus("error");
@@ -58,22 +71,22 @@ export default function ImageUploader({ clientId, isGeneral = false }: ImageUplo
         }}
         content={{
           label: "Glissez vos fichiers ici ou cliquez",
-          allowedContent: "PDF, Images (Max 16MB)"
+          allowedContent: "PDF, Images, Word, Excel (Max 16MB)"
         }}
       />
 
-      {/* Feedback visuel après l'upload */}
+      {/* Feedback visuel */}
       {uploadStatus === "success" && (
         <div className="mt-4 flex items-center gap-2 text-green-600 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
           <CheckCircleIcon className="w-5 h-5" />
-          <span className="text-sm font-medium">Document enregistré avec succès !</span>
+          <span className="text-sm font-medium">Enregistré avec succès !</span>
         </div>
       )}
 
       {uploadStatus === "error" && (
         <div className="mt-4 flex items-center gap-2 text-red-600 bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
           <XCircleIcon className="w-5 h-5" />
-          <span className="text-sm font-medium">Échec de l'enregistrement en base de données.</span>
+          <span className="text-sm font-medium">Erreur lors de l'enregistrement.</span>
         </div>
       )}
     </div>
