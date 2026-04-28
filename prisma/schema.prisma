@@ -12,50 +12,62 @@ datasource db {
   provider = "postgresql"
 }
 
-
 model User {
-  id        String   @id @default(cuid()) // Correspond à l'ID Clerk
+  id        String   @id @default(cuid())
   clerkId   String   @unique
-  role  String  @default("CLIENT")   // "CLIENT" ou "ADMIN"
+  role      String   @default("CLIENT")
   firstName String
   lastName  String
   email     String   @unique
   phone     String?
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
+
+  // Relations
+  documents   Document[]
+  submissions TaxSubmission[] 
 }
 
-// Modèle pour les annonces du comptable
 model Announcement {
   id        String   @id @default(cuid())
   title     String?
   content   String?  @db.Text
   imageUrl  String?
-  priority  String   @default("normal") // "normal", "urgent", "info"
+  priority  String   @default("normal")
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-// Modèle pour les demandes d'impôts
+
 model TaxSubmission {
-  id               String   @id @default(cuid())
-  userId           String
-  firstName        String  
-  lastName         String 
-  taxYear          Int
-  serviceType      String
-  hasSpouse        Boolean  @default(false)
-  hasDependents    Boolean  @default(false)
-  phone            String
-  email            String?
-  notes            String?  @db.Text
-  status           String   @default("En attente")
-  createdAt        DateTime @default(now())
+  id            String   @id @default(cuid())
+  userId        String   // Sera lié au clerkId ou id du User
+  firstName     String
+  lastName      String
+  taxYear       Int
+  serviceType   String
+  hasSpouse     Boolean  @default(false)
+  hasDependents Boolean  @default(false)
+  phone         String
+  email         String?
+  notes         String?  @db.Text
+  status        String   @default("En attente") 
+  // Valeurs : "En attente", "Acceptée", "En cours", "Terminé", "Annulé"
+  
+  createdAt     DateTime @default(now())
+
+  // Relation formelle avec User (très important pour l'intégrité)
+  user          User     @relation(fields: [userId], references: [clerkId]) 
 }
+
 model Document {
   id        String   @id @default(cuid())
   name      String
-  url       String   
-  clientId  String   
+  url       String
+  clientId  String?  // L'ID Clerk de l'utilisateur
+  isGeneral Boolean  @default(false)
   createdAt DateTime @default(now())
+
+  clerkId   String
+  user User? @relation(fields: [clientId], references: [clerkId])
 }
