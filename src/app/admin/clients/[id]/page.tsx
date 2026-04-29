@@ -70,11 +70,7 @@ export default async function AdminClientDetailsPage({
           {/* COLONNE GAUCHE (4/12) : PROFIL & INFOS */}
           <div className="lg:col-span-4 space-y-6">
             {/* Carte Profil */}
-            <div className="bg-white rounded-[3rem] p-8 border border-slate-100 shadow-sm relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-6 opacity-5">
-                <UserCircleIcon className="h-24 w-24 text-slate-900" />
-              </div>
-              
+            <div className="bg-white rounded-[3rem] p-8 border border-slate-100 shadow-sm relative overflow-hidden">         
               <div className="relative z-10 flex flex-col items-center text-center">
                 <div className="h-24 w-24 bg-slate-900 rounded-[2rem] flex items-center justify-center text-white text-3xl font-black mb-6 shadow-xl shadow-slate-200">
                   {client.firstName[0]}{client.lastName[0]}
