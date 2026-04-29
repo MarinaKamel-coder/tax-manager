@@ -148,45 +148,52 @@ export async function updateTaxRequest(id: string, formData: FormData) {
   if (!userId) throw new Error("Non autorisé");
 
   const newYear = parseInt(formData.get("taxYear") as string);
+  const firstName = formData.get("firstName") as string;
+  const lastName = formData.get("LastName") as string; 
 
-  // 1. Récupérer la demande actuelle
   const currentSubmission = await prisma.taxSubmission.findUnique({ 
     where: { id } 
   });
 
-  if (!currentSubmission || currentSubmission.userId !== userId || currentSubmission.status !== "En attente") {
+  if (!currentSubmission || currentSubmission.userId !== userId) {
     throw new Error("Modification non autorisée");
   }
 
-  // 2. Si l'année a changé, vérifier si la nouvelle année n'existe pas déjà ailleurs
+  // Vérification des doublons si l'année change
   if (newYear !== currentSubmission.taxYear) {
     const duplicate = await prisma.taxSubmission.findFirst({
       where: {
         userId: userId,
         taxYear: newYear,
-        NOT: { id: id } // On ignore la demande actuelle elle-même
+        NOT: { id: id }
       }
     });
 
     if (duplicate) {
-      // Rediriger vers la page d'édition avec l'erreur
       redirect(`/demande/edit/${id}?error=duplicate&year=${newYear}`);
     }
   }
 
-  // 3. Procéder à la mise à jour si tout est correct
-  await prisma.taxSubmission.update({
-    where: { id },
-    data: {
-      taxYear: newYear,
-      serviceType: formData.get("serviceType") as string,
-      phone: formData.get("phone") as string,
-      email: formData.get("email") as string,
-      notes: formData.get("notes") as string,
-      hasSpouse: formData.get("hasSpouse") === "on",
-      hasDependents: formData.get("hasDependents") === "on",
-    },
-  });
+  // Mise à jour
+  try {
+    await prisma.taxSubmission.update({
+      where: { id },
+      data: {
+        firstName, 
+        lastName,  
+        taxYear: newYear,
+        serviceType: formData.get("serviceType") as string,
+        phone: formData.get("phone") as string,
+        email: formData.get("email") as string,
+        notes: formData.get("notes") as string,
+        hasSpouse: formData.get("hasSpouse") === "on",
+        hasDependents: formData.get("hasDependents") === "on",
+      },
+    });
+  } catch (error) {
+    console.error("Erreur Prisma:", error);
+    throw new Error("Erreur lors de la mise à jour en base de données.");
+  }
 
   revalidatePath("/tableau-de-bord");
   redirect("/tableau-de-bord?success=updated");

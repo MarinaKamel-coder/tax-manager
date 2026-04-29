@@ -23,7 +23,7 @@ export async function createDocument(name: string, url: string, clientId?: strin
     revalidatePath("/admin/documents"); 
     revalidatePath("/admin/ressources"); 
     revalidatePath(`/admin/clients/${clientId}`); 
-    revalidatePath("/dashboard");       
+    revalidatePath("/tableau-de-bord");       
     
     return { success: true, data: newDoc };
   } catch (error) {
@@ -75,7 +75,7 @@ export async function deleteDocument(id: string) {
     // On rafraîchit partout où le document pourrait apparaître
     revalidatePath("/admin/documents");
     revalidatePath("/admin/ressources");
-    revalidatePath("/dashboard");
+    revalidatePath("/tableau-de-bord");
     return { success: true };
   } catch (error) {
     console.error("Erreur suppression document:", error);
