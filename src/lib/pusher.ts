@@ -1,0 +1,27 @@
+import PusherServer from 'pusher';
+import PusherClient from 'pusher-js';
+
+// 1. Instance pour le serveur (Server Actions)
+export const pusherServer = new PusherServer({
+  appId: process.env.PUSHER_APP_ID!,
+  key: process.env.NEXT_PUBLIC_PUSHER_KEY!,
+  secret: process.env.PUSHER_SECRET!,
+  cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
+  useTLS: true,
+});
+
+/**
+ * 2. Instance pour le client (Navigateur)
+ * On utilise une fonction ou une vérification typeof window 
+ * pour éviter que Next.js n'essaie de l'instancier côté serveur.
+ */
+export const getPusherClient = () => {
+  if (typeof window === "undefined") return null;
+  
+  return new PusherClient(
+    process.env.NEXT_PUBLIC_PUSHER_KEY!,
+    {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
+    }
+  );
+};
