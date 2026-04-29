@@ -33,21 +33,21 @@ export async function createDocument(name: string, url: string, clientId?: strin
 }
 
 // 2. GET : Récupérer les documents d'un client spécifique
-export async function getDocumentsByClient(clientId: string) {
-  if (!clientId) return { success: false, data: [] }; 
-  
+export async function getDocumentsByClient(clerkId: string, limit?: number, offset?: number) {
   try {
     const documents = await prisma.document.findMany({
       where: { 
-        clerkId: clientId, 
+        clerkId: clerkId,
         isGeneral: false 
       },
-      orderBy: { createdAt: "desc" },
+      take: limit,
+      skip: offset,
+      orderBy: { createdAt: 'desc' },
     });
-    return { success: true, data: documents };
+    return { data: documents };
   } catch (error) {
-    console.error("Erreur Prisma (getDocumentsByClient):", error);
-    return { success: false, error: "Erreur lors de la récupération" };
+    console.error("Erreur getDocumentsByClient:", error);
+    return { data: [], error: "Erreur lors de la récupération" };
   }
 }
 
@@ -84,15 +84,17 @@ export async function deleteDocument(id: string) {
 }
 
 // 5. GET : Récupérer les documents généraux (Ressources pour tous les clients)
-export async function getGeneralDocuments() {
+export async function getGeneralDocuments(limit?: number, offset?: number) {
   try {
     const documents = await prisma.document.findMany({
       where: { isGeneral: true },
-      orderBy: { createdAt: "desc" },
+      take: limit,    // Le nombre d'éléments à prendre
+      skip: offset,   // Le nombre d'éléments à sauter
+      orderBy: { createdAt: 'desc' },
     });
-    return { success: true, data: documents };
+    return { data: documents };
   } catch (error) {
-    console.error("Erreur récupération docs généraux:", error);
-    return { success: false, error: "Erreur lors de la récupération" };
+    console.error("Erreur getGeneralDocuments:", error);
+    return { data: [], error: "Erreur lors de la récupération" };
   }
 }
