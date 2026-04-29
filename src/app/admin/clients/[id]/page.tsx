@@ -59,7 +59,7 @@ export default async function AdminClientDetailsPage({
             {/* Carte Profil */}
             <div className="bg-white rounded-[3rem] p-8 border border-slate-100 shadow-sm relative overflow-hidden">         
               <div className="relative z-10 flex flex-col items-center text-center">
-                <div className="h-24 w-24 bg-slate-900 rounded-[2rem] flex items-center justify-center text-white text-3xl font-black mb-6 shadow-xl shadow-slate-200">
+                <div className="h-24 w-24 bg-slate-900 rounded-[2rem] uppercase flex items-center justify-center text-white text-3xl font-black mb-6 shadow-xl shadow-slate-200">
                   {client.firstName[0]}{client.lastName[0]}
                 </div>
                 <h1 className="text-3xl font-black text-slate-900 uppercase tracking-tighter leading-none">
